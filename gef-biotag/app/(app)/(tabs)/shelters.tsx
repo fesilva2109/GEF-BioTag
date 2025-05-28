@@ -6,6 +6,7 @@ import { Search, Building2, Users } from 'lucide-react-native';
 import { Colors } from '@/constants/Colors';
 import { Header } from '@/components/Header';
 import { useData } from '@/hooks/useData';
+import React from 'react';
 
 export default function SheltersScreen() {
   const router = useRouter();

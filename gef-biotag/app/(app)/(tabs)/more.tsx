@@ -5,6 +5,7 @@ import { LogOut, Settings, CircleHelp, Info, RefreshCw, Database, Users, FileTex
 import { Colors } from '@/constants/Colors';
 import { useData } from '@/hooks/useData';
 import { useUser } from '@/hooks/useUser';
+import React from 'react';
 
 export default function MoreScreen() {
   const router = useRouter();

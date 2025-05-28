@@ -2,6 +2,7 @@ import { View, Text, StyleSheet } from 'react-native';
 import { WifiOff } from 'lucide-react-native';
 import { Colors } from '@/constants/Colors';
 import { useData } from '@/hooks/useData';
+import React from 'react';
 
 export function ConnectionStatusBar() {
   const { connectionStatus } = useData();

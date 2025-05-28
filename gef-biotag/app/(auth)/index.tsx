@@ -5,6 +5,7 @@ import { useUser } from '@/hooks/useUser';
 import { Lock, UserRound } from 'lucide-react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Colors } from '@/constants/Colors';
+import React from 'react';
 
 export default function Login() {
   const [username, setUsername] = useState('');

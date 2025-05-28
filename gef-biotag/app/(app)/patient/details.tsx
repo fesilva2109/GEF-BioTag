@@ -8,6 +8,7 @@ import { Header } from '@/components/Header';
 import { useData } from '@/hooks/useData';
 import { Patient, Shelter } from '@/types';
 import { getHeartRateStatus } from '@/utils/healthUtils';
+import React from 'react';
 
 export default function PatientDetailsScreen() {
   const router = useRouter();

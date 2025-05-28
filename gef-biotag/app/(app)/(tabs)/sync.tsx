@@ -5,6 +5,7 @@ import { FolderSync as SyncIcon, CloudOff, Check, CircleArrowDown as ArrowDownCi
 import { Colors } from '@/constants/Colors';
 import { Header } from '@/components/Header';
 import { useData } from '@/hooks/useData';
+import React from 'react';
 
 export default function SyncScreen() {
   const { 

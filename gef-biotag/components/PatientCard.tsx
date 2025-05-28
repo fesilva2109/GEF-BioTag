@@ -3,6 +3,7 @@ import { Heart, User } from 'lucide-react-native';
 import { Colors } from '@/constants/Colors';
 import { Patient } from '@/types';
 import { getHeartRateStatus } from '@/utils/healthUtils';
+import React from 'react';
 
 interface PatientCardProps {
   patient: Patient;

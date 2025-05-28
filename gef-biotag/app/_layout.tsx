@@ -11,6 +11,7 @@ import {
   Inter_500Medium,
   Inter_700Bold 
 } from '@expo-google-fonts/inter';
+import React from 'react';
 
 // Prevent the splash screen from auto-hiding
 SplashScreen.preventAutoHideAsync();

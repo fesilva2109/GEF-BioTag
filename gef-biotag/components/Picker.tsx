@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Modal, FlatList } from 'react-native';
 import { ChevronDown, Check } from 'lucide-react-native';
 import { Colors } from '@/constants/Colors';
+import React from 'react';
 
 interface PickerItem {
   label: string;

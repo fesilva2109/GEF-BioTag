@@ -3,6 +3,7 @@ import { Text, View, StyleSheet } from 'react-native';
 import { PhoneIncoming as HomeIcon, ClipboardList, UserRound, FolderSync as SyncIcon, Settings as MoreIcon } from 'lucide-react-native';
 import { Colors } from '@/constants/Colors';
 import { ConnectionStatusBar } from '@/components/ConnectionStatusBar';
+import React from 'react';
 
 export default function TabLayout() {
   return (

@@ -5,6 +5,7 @@ import { UserPlus, Users, CircleAlert as AlertCircle, Info } from 'lucide-react-
 import { Colors } from '@/constants/Colors';
 import { Header } from '@/components/Header';
 import { useData } from '@/hooks/useData';
+import React from 'react';
 
 export default function HomeScreen() {
   const router = useRouter();

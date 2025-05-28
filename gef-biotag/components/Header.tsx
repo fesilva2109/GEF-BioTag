@@ -2,6 +2,7 @@ import { TouchableOpacity, View, Text, StyleSheet } from 'react-native';
 import { useRouter } from 'expo-router';
 import { ChevronLeft } from 'lucide-react-native';
 import { Colors } from '@/constants/Colors';
+import React from 'react';
 
 interface HeaderProps {
   title: string;

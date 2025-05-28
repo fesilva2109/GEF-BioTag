@@ -8,6 +8,7 @@ import { Header } from '@/components/Header';
 import { useData } from '@/hooks/useData';
 import { Picker } from '@/components/Picker';
 import { getHeartRateStatus } from '@/utils/healthUtils';
+import React from 'react';
 
 export default function RegisterPatientScreen() {
   const router = useRouter();

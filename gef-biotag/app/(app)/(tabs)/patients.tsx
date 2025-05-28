@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, FlatList, TouchableOpacity, TextInput } from 'react-native';
+import { View, Text, StyleSheet, FlatList, TouchableOpacity, TextInput, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { Search, Filter, UserRound, Heart } from 'lucide-react-native';
@@ -8,6 +8,7 @@ import { Header } from '@/components/Header';
 import { useData } from '@/hooks/useData';
 import { Patient } from '@/types';
 import { PatientCard } from '@/components/PatientCard';
+import React from 'react';
 
 export default function PatientsScreen() {
   const router = useRouter();
