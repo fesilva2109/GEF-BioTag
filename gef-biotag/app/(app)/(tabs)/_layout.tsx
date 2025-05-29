@@ -1,6 +1,13 @@
 import { Tabs } from 'expo-router';
 import { View, StyleSheet } from 'react-native';
-import { PhoneIncoming as HomeIcon, ClipboardList, UserRound, FolderSync as SyncIcon, Settings as MoreIcon } from 'lucide-react-native';
+import { 
+  PhoneIncoming as HomeIcon, 
+  ClipboardList, 
+  UserRound, 
+  Map as MapIcon, 
+  AlertTriangle,
+  Settings as MoreIcon 
+} from 'lucide-react-native';
 import { Colors } from '@/constants/Colors';
 import React from 'react';
 
@@ -44,11 +51,20 @@ export default function TabLayout() {
           }}
         />
         <Tabs.Screen
-          name="sync"
+          name="map"
           options={{
-            title: 'Sincronizar',
+            title: 'Mapa',
             tabBarIcon: ({ color, size }) => (
-              <SyncIcon size={size} color={color} />
+              <MapIcon size={size} color={color} />
+            ),
+          }}
+        />
+        <Tabs.Screen
+          name="alerts"
+          options={{
+            title: 'Alertas',
+            tabBarIcon: ({ color, size }) => (
+              <AlertTriangle size={size} color={color} />
             ),
           }}
         />

@@ -12,7 +12,7 @@ import React from 'react';
 export default function EditPatientScreen() {
   const router = useRouter();
   const { id } = useLocalSearchParams<{ id: string }>();
-  const { patients, shelters, updatePatientHeartRate, addPatient } = useData();
+  const { patients, shelters, updatePatient } = useData();
 
   const [isSaving, setIsSaving] = useState(false);
   const [patient, setPatient] = useState<any>(null);
@@ -63,7 +63,6 @@ export default function EditPatientScreen() {
     setIsSaving(true);
 
     try {
-      // Atualiza campos editáveis
       const updatedPatient = {
         ...patient,
         name,
@@ -88,17 +87,7 @@ export default function EditPatientScreen() {
         updatedAt: Date.now(),
       };
 
-      // Atualiza batimentos
-      await updatePatientHeartRate(patient.id, parseInt(heartRate, 10));
-
-      patient.name = name;
-      patient.address = address;
-      patient.shelterId = shelterId;
-      patient.bracelet.nfc.information = [
-        `Nome: ${name}`,
-        `Abrigo: ${shelters.find(s => s.id === shelterId)?.name || 'Não especificado'}`,
-        ...(notes ? [notes] : [])
-      ];
+      await updatePatient(updatedPatient);
 
       Alert.alert('Sucesso', 'Paciente atualizado com sucesso!', [
         { text: 'OK', onPress: () => router.back() }
