@@ -1,13 +1,31 @@
-import { View, Text, StyleSheet, Dimensions } from 'react-native';
-import MapView, { Marker } from 'react-native-maps';
+import { Platform, View, Text, StyleSheet, Dimensions } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Header } from '@/components/Header';
 import { useData } from '@/hooks/useData';
 import { Colors } from '@/constants/Colors';
 import React from 'react';
 
+let MapView, Marker;
+if (Platform.OS !== 'web') {
+  MapView = require('react-native-maps').default;
+  Marker = require('react-native-maps').Marker;
+}
+
 export default function MapScreen() {
   const { shelters, patients } = useData();
+
+  if (Platform.OS === 'web') {
+    return (
+      <SafeAreaView style={styles.container}>
+        <Header title="Mapa de Abrigos e Pacientes" showBack={false} />
+        <View style={styles.webPlaceholder}>
+          <Text style={styles.webPlaceholderText}>
+            O mapa não está disponível na versão web.
+          </Text>
+        </View>
+      </SafeAreaView>
+    );
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -58,5 +76,16 @@ const styles = StyleSheet.create({
   map: {
     width: Dimensions.get('window').width,
     height: Dimensions.get('window').height,
+  },
+  webPlaceholder: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  webPlaceholderText: {
+    color: Colors.gray[300],
+    fontSize: 18,
+    textAlign: 'center',
+    padding: 32,
   },
 });
