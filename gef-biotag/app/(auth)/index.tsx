@@ -87,9 +87,6 @@ export default function Login() {
               )}
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.emergencyLoginButton} onPress={() => router.replace('/(app)/(tabs)')}>
-              <Text style={styles.emergencyLoginText}>Acesso de Emergência</Text>
-            </TouchableOpacity>
           </View>
 
           <Text style={styles.footer}>Versão 1.0.0 - Modo de Emergência</Text>
@@ -177,17 +174,6 @@ const styles = StyleSheet.create({
     color: Colors.white,
     fontFamily: 'Inter-Bold',
     fontSize: 16,
-  },
-  emergencyLoginButton: {
-    marginTop: 16,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 8,
-  },
-  emergencyLoginText: {
-    color: Colors.warning,
-    fontFamily: 'Inter-Medium',
-    fontSize: 14,
   },
   footer: {
     color: Colors.gray[400],

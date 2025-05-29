@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
-import { Stack } from 'expo-router';
+import { Stack, useRouter, useSegments } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useFrameworkReady } from '@/hooks/useFrameworkReady';
-import { UserProvider } from '@/contexts/UserContext';
+import { UserProvider, UserContext } from '@/contexts/UserContext';
 import { DataProvider } from '@/contexts/DataContext';
 import { useFonts } from 'expo-font';
 import { SplashScreen } from 'expo-router';
@@ -11,10 +11,32 @@ import {
   Inter_500Medium,
   Inter_700Bold 
 } from '@expo-google-fonts/inter';
-import React from 'react';
+import React, { useContext } from 'react';
 
 // Prevent the splash screen from auto-hiding
 SplashScreen.preventAutoHideAsync();
+
+function AuthGate({ children }: { children: React.ReactNode }) {
+  const { user, isLoading } = useContext(UserContext);
+  const router = useRouter();
+  const segments = useSegments();
+
+  useEffect(() => {
+    if (!isLoading) {
+      if (!user && segments[0] !== '(auth)') {
+        router.replace('/(auth)');
+      }
+      if (user && segments[0] === '(auth)') {
+        router.replace('/(app)/(tabs)');
+      }
+    }
+  }, [user, isLoading, segments]);
+
+  // Enquanto carrega o usuário, não renderiza nada
+  if (isLoading) return null;
+
+  return <>{children}</>;
+}
 
 export default function RootLayout() {
   useFrameworkReady();
@@ -25,14 +47,12 @@ export default function RootLayout() {
     'Inter-Bold': Inter_700Bold,
   });
 
-  // Hide splash screen once fonts are loaded
   useEffect(() => {
     if (fontsLoaded || fontError) {
       SplashScreen.hideAsync();
     }
   }, [fontsLoaded, fontError]);
 
-  // Return null to keep splash screen visible while fonts load
   if (!fontsLoaded && !fontError) {
     return null;
   }
@@ -41,11 +61,13 @@ export default function RootLayout() {
     <UserProvider>
       <DataProvider>
         <StatusBar style="light" />
-        <Stack screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="(auth)" options={{ headerShown: false }} />
-          <Stack.Screen name="(app)" options={{ headerShown: false }} />
-          <Stack.Screen name="+not-found" />
-        </Stack>
+        <AuthGate>
+          <Stack screenOptions={{ headerShown: false }}>
+            <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+            <Stack.Screen name="(app)" options={{ headerShown: false }} />
+            <Stack.Screen name="+not-found" />
+          </Stack>
+        </AuthGate>
       </DataProvider>
     </UserProvider>
   );
