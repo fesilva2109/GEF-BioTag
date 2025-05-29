@@ -5,11 +5,14 @@ import { UserPlus, Users, CircleAlert as AlertCircle, Info } from 'lucide-react-
 import { Colors } from '@/constants/Colors';
 import { Header } from '@/components/Header';
 import { useData } from '@/hooks/useData';
+import { OfflineBanner } from '@/components/OfflineBanner';
 import React from 'react';
 
 export default function HomeScreen() {
   const router = useRouter();
   const { patients, shelters } = useData();
+  const { isOffline } = useData();
+
   
   // Filter patients with critical heart rate
   const criticalPatients = patients.filter(patient => {
@@ -19,7 +22,8 @@ export default function HomeScreen() {
   return (
     <SafeAreaView style={styles.container}>
       <Header title="GEF-BioTag" showBack={false} />
-      
+      {isOffline && <OfflineBanner />}
+
       <ScrollView style={styles.content} contentContainerStyle={styles.scrollContent}>
         <View style={styles.actionButtons}>
           <TouchableOpacity 

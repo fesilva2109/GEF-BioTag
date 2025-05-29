@@ -1,14 +1,12 @@
 import { Tabs } from 'expo-router';
-import { Text, View, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { PhoneIncoming as HomeIcon, ClipboardList, UserRound, FolderSync as SyncIcon, Settings as MoreIcon } from 'lucide-react-native';
 import { Colors } from '@/constants/Colors';
-import { ConnectionStatusBar } from '@/components/ConnectionStatusBar';
 import React from 'react';
 
 export default function TabLayout() {
   return (
     <View style={styles.container}>
-      <ConnectionStatusBar />
       <Tabs
         screenOptions={{
           headerShown: false,
@@ -76,9 +74,11 @@ const styles = StyleSheet.create({
   tabBar: {
     backgroundColor: Colors.gray[800],
     borderTopColor: Colors.gray[700],
-    height: 60,
-    paddingBottom: 8,
     paddingTop: 8,
+    paddingBottom: 8,
+    paddingHorizontal: 16,
+    borderTopLeftRadius: 16,
+    borderTopRightRadius: 16,  
   },
   tabLabel: {
     fontFamily: 'Inter-Medium',

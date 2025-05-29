@@ -1,22 +1,18 @@
-import { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Switch, Alert, ScrollView, ActivityIndicator } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Alert, ScrollView, ActivityIndicator } from 'react-native';
 import { useRouter } from 'expo-router';
 import { LogOut, Settings, CircleHelp, Info, RefreshCw, Database, Users, FileText, Shield, ChevronRight } from 'lucide-react-native';
 import { Colors } from '@/constants/Colors';
 import { useData } from '@/hooks/useData';
 import { useUser } from '@/hooks/useUser';
-import React from 'react';
+import React, { useState } from 'react';
 
 export default function MoreScreen() {
   const router = useRouter();
   const { logout } = useUser();
-  const { connectionStatus, syncData, patients, clearData } = useData();
-  const [offlineMode, setOfflineMode] = useState(!connectionStatus.online);
+  const { syncData, patients } = useData();
   const [isSyncing, setIsSyncing] = useState(false);
-  
+
   const handleSync = async () => {
-    if (!connectionStatus.online) return;
-    
     setIsSyncing(true);
     try {
       await syncData();
@@ -46,48 +42,14 @@ export default function MoreScreen() {
     );
   };
 
-  const handleClearData = () => {
-    Alert.alert(
-      'Atenção!',
-      'Esta ação irá excluir TODOS os dados armazenados no dispositivo. Esta ação não pode ser desfeita!',
-      [
-        { text: 'Cancelar', style: 'cancel' },
-        { 
-          text: 'Limpar Dados', 
-          style: 'destructive',
-          onPress: async () => {
-            await clearData();
-            Alert.alert('Sucesso', 'Todos os dados foram excluídos');
-          }
-        }
-      ]
-    );
-  };
-
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Configurações do Aplicativo</Text>
-        
-        <View style={styles.settingItem}>
-          <View style={styles.settingContent}>
-            <View style={styles.settingIconContainer}>
-              <Settings size={22} color={Colors.white} />
-            </View>
-            <Text style={styles.settingLabel}>Modo Offline</Text>
-          </View>
-          <Switch
-            value={offlineMode}
-            onValueChange={setOfflineMode}
-            trackColor={{ false: Colors.gray[600], true: Colors.primary }}
-            thumbColor={Colors.white}
-          />
-        </View>
-        
         <TouchableOpacity 
           style={styles.settingItem}
           onPress={handleSync}
-          disabled={!connectionStatus.online || isSyncing}
+          disabled={isSyncing}
         >
           <View style={styles.settingContent}>
             <View style={styles.settingIconContainer}>
@@ -95,11 +57,6 @@ export default function MoreScreen() {
             </View>
             <View style={styles.settingTextContainer}>
               <Text style={styles.settingLabel}>Sincronizar Dados</Text>
-              <Text style={styles.settingDescription}>
-                {connectionStatus.online 
-                  ? `${patients.filter(p => !p.synced).length} registros pendentes`
-                  : 'Sem conexão'}
-              </Text>
             </View>
           </View>
           {isSyncing ? (
@@ -107,24 +64,6 @@ export default function MoreScreen() {
           ) : (
             <ChevronRight size={20} color={Colors.gray[400]} />
           )}
-        </TouchableOpacity>
-        
-        <TouchableOpacity 
-          style={styles.settingItem}
-          onPress={handleClearData}
-        >
-          <View style={styles.settingContent}>
-            <View style={styles.settingIconContainer}>
-              <Database size={22} color={Colors.white} />
-            </View>
-            <View style={styles.settingTextContainer}>
-              <Text style={styles.settingLabel}>Limpar Dados Locais</Text>
-              <Text style={styles.settingDescription}>
-                Exclui todos os dados armazenados no dispositivo
-              </Text>
-            </View>
-          </View>
-          <ChevronRight size={20} color={Colors.gray[400]} />
         </TouchableOpacity>
       </View>
       
@@ -190,6 +129,7 @@ export default function MoreScreen() {
 
 const styles = StyleSheet.create({
   container: {
+    paddingTop: 50,
     flex: 1,
     backgroundColor: Colors.darkGray,
   },

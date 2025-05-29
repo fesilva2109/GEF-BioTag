@@ -1,10 +1,8 @@
 import axios from 'axios';
 import { Patient } from '@/types';
 
-// This would be your actual API base URL in a real app
-const API_BASE_URL = 'https://api.gefbiotag.example.com';
+const API_BASE_URL = 'https://api.gefbiotag.example.com'; // Coloque o endereço real da sua API
 
-// Create an axios instance for the API
 const api = axios.create({
   baseURL: API_BASE_URL,
   timeout: 10000,
@@ -12,77 +10,62 @@ const api = axios.create({
 
 export const apiService = {
   /**
-   * Check if the API is reachable (used to determine online status)
+   * Checa se a API está online
    */
   checkConnection: async (): Promise<boolean> => {
     try {
-      // In a real app, we'd ping the actual API
-      // For this demo, we'll simulate random connectivity to test offline mode
-      // Return true 70% of the time to simulate mostly online connection
-      return Math.random() < 0.7;
+      await api.get('/health'); // Ajuste para um endpoint real de healthcheck
+      return true;
     } catch (error) {
       return false;
     }
   },
-  
+
   /**
-   * Get all patients from the API
+   * Busca todos os pacientes da API
    */
   getPatients: async (): Promise<Patient[]> => {
     try {
-      // In a real app, we'd make an actual API call
-      // For this demo, we'll simulate an API response delay
-      await new Promise(resolve => setTimeout(resolve, 500));
-      
-      // Mock success - would be `const response = await api.get('/patients')` in a real app
-      return [];
+      const response = await api.get('/patients');
+      return response.data;
     } catch (error) {
       console.error('API error getting patients:', error);
       throw error;
     }
   },
-  
+
   /**
-   * Create a new patient via the API
+   * Cria um novo paciente via API
    */
   createPatient: async (patient: Patient): Promise<Patient> => {
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 500));
-      
-      // Mock success - would be `const response = await api.post('/patients', patient)` in a real app
-      return patient;
+      const response = await api.post('/patients', patient);
+      return response.data;
     } catch (error) {
       console.error('API error creating patient:', error);
       throw error;
     }
   },
-  
+
   /**
-   * Update an existing patient via the API
+   * Atualiza um paciente via API
    */
   updatePatient: async (patient: Patient): Promise<Patient> => {
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 500));
-      
-      // Mock success - would be `const response = await api.put(`/patients/${patient.id}`, patient)` in a real app
-      return patient;
+      const response = await api.put(`/patients/${patient.id}`, patient);
+      return response.data;
     } catch (error) {
       console.error('API error updating patient:', error);
       throw error;
     }
   },
-  
+
   /**
-   * Delete a patient via the API
+   * Deleta um paciente via API
    */
   deletePatient: async (patientId: string): Promise<void> => {
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 500));
-      
-      // Mock success - would be `await api.delete(`/patients/${patientId}`)` in a real app
+      await api.delete(`/patients/${patientId}`);
       return;
     } catch (error) {
       console.error('API error deleting patient:', error);

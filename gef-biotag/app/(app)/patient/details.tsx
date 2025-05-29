@@ -367,10 +367,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginBottom: 16,
   },
-  infoItem: {
-    flexDirection: 'row',
-    marginBottom: 16,
-  },
   infoContent: {
     flex: 1,
     marginLeft: 12,

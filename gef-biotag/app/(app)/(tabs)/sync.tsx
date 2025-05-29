@@ -1,116 +1,56 @@
 import { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ActivityIndicator, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ActivityIndicator, ScrollView, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { FolderSync as SyncIcon, CloudOff, Check, CircleArrowDown as ArrowDownCircle, Info, TriangleAlert as AlertTriangle } from 'lucide-react-native';
+import { FolderSync as SyncIcon, Check, Info } from 'lucide-react-native';
 import { Colors } from '@/constants/Colors';
 import { Header } from '@/components/Header';
 import { useData } from '@/hooks/useData';
 import React from 'react';
 
 export default function SyncScreen() {
-  const { 
-    connectionStatus, 
-    patients, 
-    syncData, 
-    lastSyncTime,
-    unsyncedPatientsCount
-  } = useData();
-  
+  const { patients, syncData } = useData();
   const [isSyncing, setIsSyncing] = useState(false);
   const [syncComplete, setSyncComplete] = useState(false);
-  
+
   const handleSync = async () => {
-    if (!connectionStatus.online) return;
-    
     setIsSyncing(true);
     setSyncComplete(false);
-    
     try {
       await syncData();
       setSyncComplete(true);
+      Alert.alert('Sincronização', 'Dados sincronizados com sucesso!');
     } catch (error) {
-      console.error('Sync error:', error);
+      Alert.alert('Erro', 'Não foi possível sincronizar os dados.');
     } finally {
       setIsSyncing(false);
     }
   };
 
-  const formatLastSyncTime = () => {
-    if (!lastSyncTime) return 'Nunca';
-    
-    const date = new Date(lastSyncTime);
-    return date.toLocaleString('pt-BR', {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit'
-    });
-  };
-
   return (
     <SafeAreaView style={styles.container}>
       <Header title="Sincronização" showBack={false} />
-      
       <ScrollView style={styles.content} contentContainerStyle={styles.scrollContent}>
         <View style={styles.statusCard}>
           <View style={styles.statusHeader}>
-            {connectionStatus.online ? (
-              <View style={[styles.statusIndicator, styles.onlineIndicator]} />
-            ) : (
-              <View style={[styles.statusIndicator, styles.offlineIndicator]} />
-            )}
-            <Text style={styles.statusText}>
-              {connectionStatus.online ? 'Online' : 'Offline'}
-            </Text>
+            <Check size={20} color={Colors.success} />
+            <Text style={styles.statusText}>Sempre Online</Text>
           </View>
-          
-          <View style={styles.statusInfo}>
-            <Text style={styles.lastSyncLabel}>Última sincronização:</Text>
-            <Text style={styles.lastSyncValue}>{formatLastSyncTime()}</Text>
-          </View>
-
-          <View style={styles.pendingSyncContainer}>
-            {unsyncedPatientsCount > 0 ? (
-              <>
-                <AlertTriangle size={20} color={Colors.warning} />
-                <Text style={styles.pendingSyncText}>
-                  {unsyncedPatientsCount} {unsyncedPatientsCount === 1 ? 'registro pendente' : 'registros pendentes'} de sincronização
-                </Text>
-              </>
-            ) : (
-              <>
-                <Check size={20} color={Colors.success} />
-                <Text style={styles.syncedText}>Todos os dados estão sincronizados</Text>
-              </>
-            )}
-          </View>
+          <Text style={styles.syncedText}>Todos os dados são sincronizados automaticamente com o servidor.</Text>
         </View>
-        
         <TouchableOpacity 
-          style={[
-            styles.syncButton, 
-            !connectionStatus.online && styles.disabledSyncButton
-          ]}
+          style={styles.syncButton}
           onPress={handleSync}
-          disabled={!connectionStatus.online || isSyncing}
+          disabled={isSyncing}
         >
           {isSyncing ? (
             <ActivityIndicator color="#FFFFFF" />
           ) : (
             <>
-              {connectionStatus.online ? (
-                <SyncIcon size={24} color="#FFFFFF" />
-              ) : (
-                <CloudOff size={24} color="#FFFFFF" />
-              )}
-              <Text style={styles.syncButtonText}>
-                {connectionStatus.online ? 'Sincronizar Agora' : 'Sem Conexão'}
-              </Text>
+              <SyncIcon size={24} color="#FFFFFF" />
+              <Text style={styles.syncButtonText}>Sincronizar Agora</Text>
             </>
           )}
         </TouchableOpacity>
-        
         {syncComplete && (
           <View style={styles.syncCompleteContainer}>
             <Check size={20} color={Colors.success} />
@@ -119,44 +59,21 @@ export default function SyncScreen() {
             </Text>
           </View>
         )}
-        
         <View style={styles.infoSection}>
           <View style={styles.infoHeader}>
             <Info size={20} color={Colors.white} />
             <Text style={styles.infoTitle}>Sobre a Sincronização</Text>
           </View>
-          
           <Text style={styles.infoText}>
-            • O aplicativo funciona normalmente em modo offline
-          </Text>
-          <Text style={styles.infoText}>
-            • Quando online, todos os dados são sincronizados automaticamente com o servidor central
-          </Text>
-          <Text style={styles.infoText}>
-            • Registros feitos offline serão marcados para sincronização automática quando a conexão for restabelecida
-          </Text>
-          <Text style={styles.infoText}>
-            • Use o botão acima para forçar uma sincronização manual quando necessário
+            • O aplicativo está sempre online e sincroniza os dados automaticamente.
           </Text>
         </View>
-        
         <View style={styles.dataSection}>
           <Text style={styles.sectionTitle}>Estatísticas</Text>
-          
           <View style={styles.statsContainer}>
             <View style={styles.statItem}>
               <Text style={styles.statNumber}>{patients.length}</Text>
               <Text style={styles.statLabel}>Pacientes Totais</Text>
-            </View>
-            
-            <View style={styles.statItem}>
-              <Text style={styles.statNumber}>{unsyncedPatientsCount}</Text>
-              <Text style={styles.statLabel}>Não Sincronizados</Text>
-            </View>
-            
-            <View style={styles.statItem}>
-              <Text style={styles.statNumber}>{patients.length - unsyncedPatientsCount}</Text>
-              <Text style={styles.statLabel}>Sincronizados</Text>
             </View>
           </View>
         </View>
