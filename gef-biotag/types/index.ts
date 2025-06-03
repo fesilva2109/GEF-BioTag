@@ -6,7 +6,6 @@ export interface Patient {
   shelterId: string;
   createdAt: number;
   updatedAt: number;
-  synced: boolean;
 }
 
 export interface Bracelet {

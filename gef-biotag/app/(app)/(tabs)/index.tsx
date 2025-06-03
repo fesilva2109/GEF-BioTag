@@ -1,19 +1,20 @@
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { useRouter } from 'expo-router';
-import { UserPlus, Users, CircleAlert as AlertCircle, Info } from 'lucide-react-native';
-import { Colors } from '@/constants/Colors';
+import AlertsScreen from '@/components/Alerts';
 import { Header } from '@/components/Header';
-import { useData } from '@/hooks/useData';
 import { OfflineBanner } from '@/components/OfflineBanner';
+import { Colors } from '@/constants/Colors';
+import { useData } from '@/hooks/useData';
+import { useRouter } from 'expo-router';
+import { CircleAlert as AlertCircle, Info, UserPlus, Users } from 'lucide-react-native';
 import React from 'react';
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function HomeScreen() {
   const router = useRouter();
   const { patients, shelters } = useData();
   const { isOffline } = useData();
 
-  
+
   // Filter patients with critical heart rate
   const criticalPatients = patients.filter(patient => {
     return patient.bracelet.iotHeartRate.bpm > 100 || patient.bracelet.iotHeartRate.bpm < 60;
@@ -23,19 +24,18 @@ export default function HomeScreen() {
     <SafeAreaView style={styles.container}>
       <Header title="GEF-BioTag" showBack={false} />
       {isOffline && <OfflineBanner />}
-
       <ScrollView style={styles.content} contentContainerStyle={styles.scrollContent}>
         <View style={styles.actionButtons}>
-          <TouchableOpacity 
-            style={styles.primaryButton} 
+          <TouchableOpacity
+            style={styles.primaryButton}
             onPress={() => router.push('/patient/register')}
           >
             <UserPlus size={32} color="#FFFFFF" />
             <Text style={styles.primaryButtonText}>Registrar Novo Paciente</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity 
-            style={styles.secondaryButton} 
+          <TouchableOpacity
+            style={styles.secondaryButton}
             onPress={() => router.push('/patients')}
           >
             <Users size={28} color="#FFFFFF" />
@@ -45,19 +45,19 @@ export default function HomeScreen() {
 
         <View style={styles.statsContainer}>
           <Text style={styles.sectionTitle}>Resumo da Operação</Text>
-          
+
           <View style={styles.statRow}>
             <View style={[styles.statCard, styles.primaryStatCard]}>
               <Text style={styles.statNumber}>{patients.length}</Text>
               <Text style={styles.statLabel}>Pacientes Registrados</Text>
             </View>
-            
+
             <View style={[styles.statCard, styles.secondaryStatCard]}>
               <Text style={styles.statNumber}>{shelters.length}</Text>
               <Text style={styles.statLabel}>Abrigos Ativos</Text>
             </View>
           </View>
-          
+
           <View style={[styles.statCard, styles.warningStatCard]}>
             <View style={styles.statHeader}>
               <AlertCircle size={20} color={Colors.warning} />
@@ -67,7 +67,7 @@ export default function HomeScreen() {
             <Text style={styles.statLabel}>Pacientes em Estado Crítico</Text>
           </View>
         </View>
-        
+
         <View style={styles.infoSection}>
           <View style={styles.infoHeader}>
             <Info size={20} color={Colors.white} />
@@ -85,6 +85,10 @@ export default function HomeScreen() {
           <Text style={styles.infoText}>
             4. Mantenha a pulseira NFC próxima ao aparelho durante leituras
           </Text>
+        </View>
+        <View>
+          <AlertsScreen>
+          </AlertsScreen>
         </View>
       </ScrollView>
     </SafeAreaView>

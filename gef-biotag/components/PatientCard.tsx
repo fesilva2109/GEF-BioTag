@@ -1,9 +1,9 @@
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { Heart, User } from 'lucide-react-native';
 import { Colors } from '@/constants/Colors';
 import { Patient } from '@/types';
 import { getHeartRateStatus } from '@/utils/healthUtils';
+import { Heart, User } from 'lucide-react-native';
 import React from 'react';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 interface PatientCardProps {
   patient: Patient;
@@ -13,10 +13,10 @@ interface PatientCardProps {
 
 export function PatientCard({ patient, shelterName, onPress }: PatientCardProps) {
   const heartRateStatus = getHeartRateStatus(patient.bracelet.iotHeartRate.bpm);
-  const heartRateColor = 
+  const heartRateColor =
     heartRateStatus === 'critical' ? Colors.danger :
-    heartRateStatus === 'warning' ? Colors.warning :
-    Colors.success;
+      heartRateStatus === 'warning' ? Colors.warning :
+        Colors.success;
 
   return (
     <TouchableOpacity style={styles.container} onPress={onPress}>
@@ -24,13 +24,13 @@ export function PatientCard({ patient, shelterName, onPress }: PatientCardProps)
         <View style={styles.avatarContainer}>
           <User size={24} color={Colors.white} />
         </View>
-        
+
         <View style={styles.infoContainer}>
           <Text style={styles.name}>{patient.name}</Text>
           <Text style={styles.id}>ID: {patient.bracelet.nfc.id}</Text>
           <Text style={styles.shelter}>{shelterName}</Text>
         </View>
-        
+
         <View style={styles.heartRateContainer}>
           <Heart size={18} color={heartRateColor} />
           <Text style={[styles.heartRate, { color: heartRateColor }]}>
@@ -38,19 +38,14 @@ export function PatientCard({ patient, shelterName, onPress }: PatientCardProps)
           </Text>
         </View>
       </View>
-      
+
       {heartRateStatus !== 'normal' && (
         <View style={[
-          styles.statusBar, 
+          styles.statusBar,
           heartRateStatus === 'critical' ? styles.criticalStatus : styles.warningStatus
         ]} />
       )}
-      
-      {!patient.synced && (
-        <View style={styles.syncIndicator}>
-          <Text style={styles.syncText}>Não sincronizado</Text>
-        </View>
-      )}
+
     </TouchableOpacity>
   );
 }

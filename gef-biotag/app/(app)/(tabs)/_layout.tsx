@@ -1,15 +1,14 @@
-import { Tabs } from 'expo-router';
-import { View, StyleSheet } from 'react-native';
-import { 
-  PhoneIncoming as HomeIcon, 
-  ClipboardList, 
-  UserRound, 
-  Map as MapIcon, 
-  AlertTriangle,
-  Settings as MoreIcon 
-} from 'lucide-react-native';
 import { Colors } from '@/constants/Colors';
+import { Tabs } from 'expo-router';
+import {
+  ClipboardList,
+  PhoneIncoming as HomeIcon,
+  Map as MapIcon,
+  Settings as MoreIcon,
+  UserRound
+} from 'lucide-react-native';
 import React from 'react';
+import { StyleSheet, View } from 'react-native';
 
 export default function TabLayout() {
   return (
@@ -60,15 +59,6 @@ export default function TabLayout() {
           }}
         />
         <Tabs.Screen
-          name="alerts"
-          options={{
-            title: 'Alertas',
-            tabBarIcon: ({ color, size }) => (
-              <AlertTriangle size={size} color={color} />
-            ),
-          }}
-        />
-        <Tabs.Screen
           name="more"
           options={{
             title: 'Mais',
@@ -94,7 +84,7 @@ const styles = StyleSheet.create({
     paddingBottom: 8,
     paddingHorizontal: 16,
     borderTopLeftRadius: 16,
-    borderTopRightRadius: 16,  
+    borderTopRightRadius: 16,
   },
   tabLabel: {
     fontFamily: 'Inter-Medium',

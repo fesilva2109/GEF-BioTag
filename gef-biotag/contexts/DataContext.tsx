@@ -1,9 +1,9 @@
-import React, { createContext, useState, useEffect, ReactNode } from 'react';
-import { Patient, Shelter } from '@/types';
 import { mockShelters } from '@/data/mockShelters';
 import { apiService } from '@/services/apiService';
-import { Alert } from 'react-native';
+import { Patient, Shelter } from '@/types';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import React, { createContext, ReactNode, useEffect, useState } from 'react';
+import { Alert } from 'react-native';
 
 interface DataContextType {
   patients: Patient[];
@@ -12,7 +12,6 @@ interface DataContextType {
   updatePatientHeartRate: (patientId: string, bpm: number) => Promise<void>;
   updatePatient: (updatedPatient: Patient) => Promise<void>;
   removePatient: (patientId: string) => Promise<void>;
-  syncData: () => Promise<void>;
   isOffline: boolean;
 }
 
@@ -20,10 +19,9 @@ export const DataContext = createContext<DataContextType>({
   patients: [],
   shelters: [],
   addPatient: async () => ({ id: '', name: '', address: '', bracelet: { id: '', rfid: { id: '', coordinates: { latitude: 0, longitude: 0 } }, nfc: { id: '', information: [] }, iotHeartRate: { id: '', bpm: 0, timestamp: 0 } }, shelterId: '', createdAt: 0, updatedAt: 0, synced: false }),
-  updatePatientHeartRate: async () => {},
-  updatePatient: async () => {},
-  removePatient: async () => {},
-  syncData: async () => {},
+  updatePatientHeartRate: async () => { },
+  updatePatient: async () => { },
+  removePatient: async () => { },
   isOffline: false,
 });
 
@@ -66,7 +64,6 @@ export function DataProvider({ children }: DataProviderProps) {
       ...patientData,
       createdAt: timestamp,
       updatedAt: timestamp,
-      synced: !isOffline,
     };
     try {
       if (isOffline) {
@@ -161,10 +158,6 @@ export function DataProvider({ children }: DataProviderProps) {
     }
   };
 
-  const syncData = async (): Promise<void> => {
-    // Se quiser implementar sincronização dos dados locais quando voltar online, faça aqui
-    return Promise.resolve();
-  };
 
   return (
     <DataContext.Provider value={{
@@ -174,7 +167,6 @@ export function DataProvider({ children }: DataProviderProps) {
       updatePatientHeartRate,
       updatePatient,
       removePatient,
-      syncData,
       isOffline,
     }}>
       {children}

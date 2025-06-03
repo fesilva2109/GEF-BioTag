@@ -1,29 +1,28 @@
-import { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert, ActivityIndicator } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { useLocalSearchParams, useRouter } from 'expo-router';
-import { Heart, MapPin, Building2, Radio, Clipboard as ClipboardEdit, UserRound, AlignLeft } from 'lucide-react-native';
-import { Colors } from '@/constants/Colors';
 import { Header } from '@/components/Header';
+import { Colors } from '@/constants/Colors';
 import { useData } from '@/hooks/useData';
 import { Patient, Shelter } from '@/types';
 import { getHeartRateStatus } from '@/utils/healthUtils';
-import React from 'react';
+import { useLocalSearchParams, useRouter } from 'expo-router';
+import { AlignLeft, Building2, Clipboard as ClipboardEdit, Heart, MapPin, Radio, UserRound } from 'lucide-react-native';
+import React, { useEffect, useState } from 'react';
+import { ActivityIndicator, Alert, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function PatientDetailsScreen() {
   const router = useRouter();
   const { id } = useLocalSearchParams<{ id: string }>();
   const { patients, shelters, updatePatientHeartRate, removePatient } = useData();
-  
+
   const [patient, setPatient] = useState<Patient | null>(null);
   const [shelter, setShelter] = useState<Shelter | null>(null);
   const [loading, setLoading] = useState(false);
-  
+
   useEffect(() => {
     if (id) {
       const foundPatient = patients.find(p => p.id === id);
       setPatient(foundPatient || null);
-      
+
       if (foundPatient) {
         const foundShelter = shelters.find(s => s.id === foundPatient.shelterId);
         setShelter(foundShelter || null);
@@ -33,15 +32,15 @@ export default function PatientDetailsScreen() {
 
   const simulateHeartRateUpdate = async () => {
     if (!patient) return;
-    
+
     setLoading(true);
-    
+
     try {
       // Generate a random heart rate between 50 and 130
       const newBpm = Math.floor(Math.random() * 80) + 50;
-      
+
       await updatePatientHeartRate(patient.id, newBpm);
-      
+
       // Update local state
       setPatient(prev => {
         if (!prev) return null;
@@ -67,7 +66,7 @@ export default function PatientDetailsScreen() {
 
   const handleDeletePatient = () => {
     if (!patient) return;
-    
+
     Alert.alert(
       'Confirmar Exclusão',
       `Tem certeza que deseja remover o paciente ${patient.name}?`,
@@ -106,11 +105,11 @@ export default function PatientDetailsScreen() {
   }
 
   const heartRateStatus = getHeartRateStatus(patient.bracelet.iotHeartRate.bpm);
-  const heartRateColor = 
+  const heartRateColor =
     heartRateStatus === 'critical' ? Colors.danger :
-    heartRateStatus === 'warning' ? Colors.warning :
-    Colors.success;
-  
+      heartRateStatus === 'warning' ? Colors.warning :
+        Colors.success;
+
   const formatTimestamp = (timestamp: number) => {
     const date = new Date(timestamp);
     return date.toLocaleString('pt-BR', {
@@ -125,7 +124,7 @@ export default function PatientDetailsScreen() {
   return (
     <SafeAreaView style={styles.container}>
       <Header title="Detalhes do Paciente" showBack={true} />
-      
+
       <ScrollView style={styles.content} contentContainerStyle={styles.scrollContent}>
         <View style={styles.patientHeader}>
           <View style={styles.patientIconContainer}>
@@ -136,7 +135,7 @@ export default function PatientDetailsScreen() {
             <Text style={styles.patientId}>ID: {patient.bracelet.nfc.id}</Text>
           </View>
         </View>
-        
+
         <View style={styles.vitalSign}>
           <Heart size={24} color={heartRateColor} />
           <View style={styles.vitalInfo}>
@@ -145,13 +144,13 @@ export default function PatientDetailsScreen() {
           </View>
           <View style={[styles.vitalStatus, { backgroundColor: heartRateColor + '20' }]}>
             <Text style={[styles.vitalStatusText, { color: heartRateColor }]}>
-              {heartRateStatus === 'normal' ? 'Normal' : 
-               heartRateStatus === 'warning' ? 'Atenção' : 'Crítico'}
+              {heartRateStatus === 'normal' ? 'Normal' :
+                heartRateStatus === 'warning' ? 'Atenção' : 'Crítico'}
             </Text>
           </View>
         </View>
-        
-        <TouchableOpacity 
+
+        <TouchableOpacity
           style={styles.updateButton}
           onPress={simulateHeartRateUpdate}
           disabled={loading}
@@ -165,7 +164,7 @@ export default function PatientDetailsScreen() {
             </>
           )}
         </TouchableOpacity>
-        
+
         <View style={styles.infoSection}>
           <View style={styles.infoItem}>
             <Radio size={20} color={Colors.gray[400]} />
@@ -174,7 +173,7 @@ export default function PatientDetailsScreen() {
               <Text style={styles.infoValue}>{patient.bracelet.nfc.id}</Text>
             </View>
           </View>
-          
+
           <View style={styles.infoItem}>
             <MapPin size={20} color={Colors.gray[400]} />
             <View style={styles.infoContent}>
@@ -184,7 +183,7 @@ export default function PatientDetailsScreen() {
               </Text>
             </View>
           </View>
-          
+
           <View style={styles.infoItem}>
             <Building2 size={20} color={Colors.gray[400]} />
             <View style={styles.infoContent}>
@@ -193,14 +192,14 @@ export default function PatientDetailsScreen() {
             </View>
           </View>
         </View>
-        
+
         {patient.bracelet.nfc.information.length > 0 && (
           <View style={styles.notesSection}>
             <View style={styles.sectionHeader}>
               <AlignLeft size={20} color={Colors.white} />
               <Text style={styles.sectionTitle}>Observações</Text>
             </View>
-            
+
             {patient.bracelet.nfc.information.map((info, index) => {
               if (!info.startsWith('Nome:') && !info.startsWith('Abrigo:')) {
                 return (
@@ -211,34 +210,26 @@ export default function PatientDetailsScreen() {
             })}
           </View>
         )}
-        
+
         <View style={styles.historySection}>
           <View style={styles.sectionHeader}>
             <ClipboardEdit size={20} color={Colors.white} />
             <Text style={styles.sectionTitle}>Histórico</Text>
           </View>
-          
+
           <View style={styles.historyItem}>
             <Text style={styles.historyTitle}>Registrado em</Text>
             <Text style={styles.historyValue}>{formatTimestamp(patient.createdAt)}</Text>
           </View>
-          
+
           <View style={styles.historyItem}>
             <Text style={styles.historyTitle}>Última atualização</Text>
             <Text style={styles.historyValue}>{formatTimestamp(patient.updatedAt)}</Text>
           </View>
-          
-          <View style={styles.historyItem}>
-            <Text style={styles.historyTitle}>Status de sincronização</Text>
-            <View style={styles.syncStatus}>
-              <View style={[styles.syncIndicator, patient.synced ? styles.syncedIndicator : styles.unsyncedIndicator]} />
-              <Text style={styles.syncText}>{patient.synced ? 'Sincronizado' : 'Não sincronizado'}</Text>
-            </View>
-          </View>
         </View>
-        
+
         <View style={styles.actionButtons}>
-          <TouchableOpacity 
+          <TouchableOpacity
             style={styles.editButton}
             onPress={() => router.push({
               pathname: '/patient/edit',
@@ -247,8 +238,8 @@ export default function PatientDetailsScreen() {
           >
             <Text style={styles.editButtonText}>Editar Paciente</Text>
           </TouchableOpacity>
-          
-          <TouchableOpacity 
+
+          <TouchableOpacity
             style={styles.deleteButton}
             onPress={handleDeletePatient}
           >

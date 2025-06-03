@@ -1,28 +1,14 @@
-import { View, Text, StyleSheet, TouchableOpacity, Alert, ScrollView, ActivityIndicator } from 'react-native';
-import { useRouter } from 'expo-router';
-import { LogOut, Settings, CircleHelp, Info, RefreshCw, Database, Users, FileText, Shield, ChevronRight } from 'lucide-react-native';
 import { Colors } from '@/constants/Colors';
-import { useData } from '@/hooks/useData';
 import { useUser } from '@/hooks/useUser';
-import React, { useState } from 'react';
+import { useRouter } from 'expo-router';
+import { ChevronRight, CircleHelp, FileText, Info, LogOut, Shield, Users } from 'lucide-react-native';
+import React from 'react';
+import { Alert, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 export default function MoreScreen() {
   const router = useRouter();
   const { logout } = useUser();
-  const { syncData, patients } = useData();
-  const [isSyncing, setIsSyncing] = useState(false);
 
-  const handleSync = async () => {
-    setIsSyncing(true);
-    try {
-      await syncData();
-      Alert.alert('Sucesso', 'Dados sincronizados com sucesso!');
-    } catch (error) {
-      Alert.alert('Erro', 'Não foi possível sincronizar os dados.');
-    } finally {
-      setIsSyncing(false);
-    }
-  };
 
   const handleLogout = () => {
     Alert.alert(
@@ -30,8 +16,8 @@ export default function MoreScreen() {
       'Tem certeza que deseja sair?',
       [
         { text: 'Cancelar', style: 'cancel' },
-        { 
-          text: 'Sair', 
+        {
+          text: 'Sair',
           style: 'destructive',
           onPress: () => {
             logout();
@@ -44,32 +30,10 @@ export default function MoreScreen() {
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Configurações do Aplicativo</Text>
-        <TouchableOpacity 
-          style={styles.settingItem}
-          onPress={handleSync}
-          disabled={isSyncing}
-        >
-          <View style={styles.settingContent}>
-            <View style={styles.settingIconContainer}>
-              <RefreshCw size={22} color={Colors.white} />
-            </View>
-            <View style={styles.settingTextContainer}>
-              <Text style={styles.settingLabel}>Sincronizar Dados</Text>
-            </View>
-          </View>
-          {isSyncing ? (
-            <ActivityIndicator size="small" color={Colors.primary} />
-          ) : (
-            <ChevronRight size={20} color={Colors.gray[400]} />
-          )}
-        </TouchableOpacity>
-      </View>
-      
+
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Informações</Text>
-        
+
         <TouchableOpacity style={styles.settingItem}>
           <View style={styles.settingContent}>
             <View style={styles.settingIconContainer}>
@@ -79,7 +43,7 @@ export default function MoreScreen() {
           </View>
           <ChevronRight size={20} color={Colors.gray[400]} />
         </TouchableOpacity>
-        
+
         <TouchableOpacity style={styles.settingItem}>
           <View style={styles.settingContent}>
             <View style={styles.settingIconContainer}>
@@ -89,7 +53,7 @@ export default function MoreScreen() {
           </View>
           <ChevronRight size={20} color={Colors.gray[400]} />
         </TouchableOpacity>
-        
+
         <TouchableOpacity style={styles.settingItem}>
           <View style={styles.settingContent}>
             <View style={styles.settingIconContainer}>
@@ -99,7 +63,7 @@ export default function MoreScreen() {
           </View>
           <ChevronRight size={20} color={Colors.gray[400]} />
         </TouchableOpacity>
-        
+
         <TouchableOpacity style={styles.settingItem}>
           <View style={styles.settingContent}>
             <View style={styles.settingIconContainer}>
@@ -110,13 +74,13 @@ export default function MoreScreen() {
           <ChevronRight size={20} color={Colors.gray[400]} />
         </TouchableOpacity>
       </View>
-      
+
       <View style={styles.versionContainer}>
         <Shield size={18} color={Colors.gray[400]} />
         <Text style={styles.versionText}>GEF - BioTag v1.0.0</Text>
       </View>
-      
-      <TouchableOpacity 
+
+      <TouchableOpacity
         style={styles.logoutButton}
         onPress={handleLogout}
       >
