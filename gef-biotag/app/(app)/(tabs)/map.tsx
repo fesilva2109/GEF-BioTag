@@ -57,8 +57,8 @@ export default function MapScreen() {
               p.bracelet &&
               p.bracelet.rfid &&
               p.bracelet.rfid.coordinates &&
-              typeof p.bracelet.rfid.coordinates.latitude === 'number' &&
-              typeof p.bracelet.rfid.coordinates.longitude === 'number'
+              typeof p.bracelet.rfid.coordinates.latitude &&
+              typeof p.bracelet.rfid.coordinates.longitude 
           )
           .map(patient => (
             <Marker
