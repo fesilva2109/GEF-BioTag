@@ -62,7 +62,9 @@ export default function SheltersScreen() {
                     </View>
                     <View style={styles.shelterInfo}>
                       <Text style={styles.shelterName}>{item.name}</Text>
-                      <Text style={styles.shelterAddress}>{item.address}</Text>
+                      <Text style={styles.shelterAddress}>
+                        {`${item.address.street || ''}, ${item.address.number || ''} - ${item.address.city || ''}, ${item.address.state || ''}`}
+                      </Text>
                     </View>
                   </View>
                   

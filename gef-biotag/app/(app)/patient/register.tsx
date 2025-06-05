@@ -13,29 +13,44 @@ import React from 'react';
 export default function RegisterPatientScreen() {
   const router = useRouter();
   const { shelters, addPatient } = useData();
-  
+
   const [isScanning, setIsScanning] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
-  
+
   const [nfcId, setNfcId] = useState('');
   const [name, setName] = useState('');
   const [address, setAddress] = useState('');
   const [shelterId, setShelterId] = useState('');
   const [heartRate, setHeartRate] = useState('75');
   const [notes, setNotes] = useState('');
-  
+
+  // Simulação de leitura NFC: preenche os campos com dados fictícios
   const simulateNfcScan = () => {
     setIsScanning(true);
-    
-    // Simulate NFC scanning with a delay
+
     setTimeout(() => {
-      // Generate a random NFC ID
+      // Simula um ID NFC
       const randomId = 'NFC' + Math.floor(Math.random() * 100000).toString().padStart(6, '0');
       setNfcId(randomId);
+
+      // Simula informações vindas do NFC (JSON)
+      const fakePatient = {
+        name: 'Paciente Exemplo',
+        address: 'Rua das Flores, 123',
+        shelterId: shelters.length > 0 ? shelters[0].id : '',
+        heartRate: '82',
+        notes: 'Paciente simulado via NFC.'
+      };
+      setName(fakePatient.name);
+      setAddress(fakePatient.address);
+      setShelterId(fakePatient.shelterId);
+      setHeartRate(fakePatient.heartRate);
+      setNotes(fakePatient.notes);
+
       setIsScanning(false);
     }, 2000);
   };
-  
+
   const validateForm = () => {
     if (!nfcId) return 'ID da pulseira NFC é obrigatório';
     if (!name) return 'Nome do paciente é obrigatório';
@@ -55,14 +70,17 @@ export default function RegisterPatientScreen() {
       Alert.alert('Erro de Validação', validationError);
       return;
     }
-    
+
     setIsSaving(true);
-    
+
     try {
-      // Create random coordinates near São Paulo, Brazil
-      const latitude = -23.55 - (Math.random() * 0.1);
-      const longitude = -46.63 - (Math.random() * 0.1);
-      
+      // Busca o abrigo selecionado
+      const shelter = shelters.find(s => s.id === shelterId);
+
+      // Se o abrigo tiver coordenadas, use-as. Se não, gere próximas a SP.
+      const latitude = shelter?.address?.latitude ?? (-23.55 - (Math.random() * 0.1));
+      const longitude = shelter?.address?.longitude ?? (-46.63 - (Math.random() * 0.1));
+
       await addPatient({
         name,
         address,
@@ -77,7 +95,7 @@ export default function RegisterPatientScreen() {
             id: nfcId,
             information: [
               `Nome: ${name}`,
-              `Abrigo: ${shelters.find(s => s.id === shelterId)?.name || 'Não especificado'}`,
+              `Abrigo: ${shelter?.name || 'Não especificado'}`,
               notes ? `Observações: ${notes}` : ''
             ].filter(Boolean)
           },
@@ -88,9 +106,9 @@ export default function RegisterPatientScreen() {
           }
         }
       });
-      
+
       Alert.alert(
-        'Sucesso', 
+        'Sucesso',
         'Paciente registrado com sucesso!',
         [{ text: 'OK', onPress: () => router.back() }]
       );

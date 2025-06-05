@@ -5,7 +5,7 @@ import { useData } from '@/hooks/useData';
 import { Colors } from '@/constants/Colors';
 import React from 'react';
 
-let MapView, Marker;
+let MapView: React.JSX.IntrinsicAttributes, Marker: React.JSX.IntrinsicAttributes;
 if (Platform.OS !== 'web') {
   MapView = require('react-native-maps').default;
   Marker = require('react-native-maps').Marker;
@@ -43,26 +43,39 @@ export default function MapScreen() {
           <Marker
             key={shelter.id}
             coordinate={{
-              latitude: shelter.address?.latitude || -23.55,
-              longitude: shelter.address?.longitude || -46.63,
+              latitude: shelter.address.latitude,
+              longitude: shelter.address.longitude,
             }}
             pinColor={Colors.primary}
             title={shelter.name}
-            description={shelter.address}
+            description={`${shelter.address.street}, ${shelter.address.number}`}
           />
         ))}
-        {patients.map(patient => (
-          <Marker
-            key={patient.id}
-            coordinate={{
-              latitude: patient.bracelet.rfid.coordinates.latitude,
-              longitude: patient.bracelet.rfid.coordinates.longitude,
-            }}
-            pinColor={Colors.secondary}
-            title={patient.name}
-            description={`BPM: ${patient.bracelet.iotHeartRate.bpm}`}
-          />
-        ))}
+        {patients
+          .filter(
+            p =>
+              p.bracelet &&
+              p.bracelet.rfid &&
+              p.bracelet.rfid.coordinates &&
+              typeof p.bracelet.rfid.coordinates.latitude === 'number' &&
+              typeof p.bracelet.rfid.coordinates.longitude === 'number'
+          )
+          .map(patient => (
+            <Marker
+              key={patient.id}
+              coordinate={{
+                latitude: patient.bracelet.rfid.coordinates.latitude,
+                longitude: patient.bracelet.rfid.coordinates.longitude,
+              }}
+              pinColor={Colors.secondary}
+              title={patient.name}
+              description={
+                patient.bracelet.iotHeartRate
+                  ? `BPM: ${patient.bracelet.iotHeartRate.bpm}`
+                  : undefined
+              }
+            />
+          ))}
       </MapView>
     </SafeAreaView>
   );

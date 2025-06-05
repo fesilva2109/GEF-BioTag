@@ -37,9 +37,16 @@ export interface IOTHeartRate {
 export interface Shelter {
   id: string;
   name: string;
-  address: string;
+  address: {
+    street?: string;
+    number?: string;
+    city?: string;
+    state?: string;
+    latitude: number;
+    longitude: number;
+  };
   capacity: number;
-  patients?: string[]; // Array of patient IDs
+  patients?: string[]; 
 }
 
 export interface User {

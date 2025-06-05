@@ -1,11 +1,11 @@
 import { Colors } from '@/constants/Colors';
 import { Tabs } from 'expo-router';
 import {
-  ClipboardList,
   PhoneIncoming as HomeIcon,
+  House,
   Map as MapIcon,
   Settings as MoreIcon,
-  UserRound
+  Users
 } from 'lucide-react-native';
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
@@ -36,7 +36,7 @@ export default function TabLayout() {
           options={{
             title: 'Pacientes',
             tabBarIcon: ({ color, size }) => (
-              <ClipboardList size={size} color={color} />
+              <Users size={size} color={color} />
             ),
           }}
         />
@@ -45,7 +45,7 @@ export default function TabLayout() {
           options={{
             title: 'Abrigos',
             tabBarIcon: ({ color, size }) => (
-              <UserRound size={size} color={color} />
+              <House size={size} color={color} />
             ),
           }}
         />

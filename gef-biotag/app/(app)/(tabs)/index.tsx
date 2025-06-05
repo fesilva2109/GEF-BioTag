@@ -80,10 +80,7 @@ export default function HomeScreen() {
             2. Monitore batimentos cardíacos para priorizar atendimentos
           </Text>
           <Text style={styles.infoText}>
-            3. Sincronize dados quando possível para atualizar o sistema central
-          </Text>
-          <Text style={styles.infoText}>
-            4. Mantenha a pulseira NFC próxima ao aparelho durante leituras
+            3. Mantenha a pulseira NFC próxima ao aparelho durante leituras
           </Text>
         </View>
         <View>

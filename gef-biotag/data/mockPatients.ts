@@ -1,4 +1,12 @@
 import { Patient } from '@/types';
+import { mockShelters } from './mockShelters';
+
+const getShelterCoords = (shelterId: string) => {
+  const shelter = mockShelters.find(s => s.id === shelterId);
+  return shelter?.address
+    ? { latitude: shelter.address.latitude, longitude: shelter.address.longitude }
+    : { latitude: -23.55, longitude: -46.63 };
+};
 
 export const mockPatients: Patient[] = [
   {
@@ -9,10 +17,7 @@ export const mockPatients: Patient[] = [
       id: 'NFC000123',
       rfid: {
         id: 'RFID000123',
-        coordinates: {
-          latitude: -23.5505,
-          longitude: -46.6333
-        }
+        coordinates: getShelterCoords('shelter-1')
       },
       nfc: {
         id: 'NFC000123',
@@ -27,7 +32,6 @@ export const mockPatients: Patient[] = [
     shelterId: 'shelter-1',
     createdAt: Date.now() - 7200000, // 2 hours ago
     updatedAt: Date.now() - 3600000, // 1 hour ago
-    synced: true
   },
   {
     id: 'p-2',
@@ -37,10 +41,7 @@ export const mockPatients: Patient[] = [
       id: 'NFC000124',
       rfid: {
         id: 'RFID000124',
-        coordinates: {
-          latitude: -23.5605,
-          longitude: -46.6533
-        }
+        coordinates: getShelterCoords('shelter-2')
       },
       nfc: {
         id: 'NFC000124',
@@ -55,7 +56,6 @@ export const mockPatients: Patient[] = [
     shelterId: 'shelter-2',
     createdAt: Date.now() - 86400000, // 1 day ago
     updatedAt: Date.now() - 1800000, // 30 minutes ago
-    synced: false
   },
   {
     id: 'p-3',
@@ -65,10 +65,7 @@ export const mockPatients: Patient[] = [
       id: 'NFC000125',
       rfid: {
         id: 'RFID000125',
-        coordinates: {
-          latitude: -23.5705,
-          longitude: -46.6433
-        }
+        coordinates: getShelterCoords('shelter-3')
       },
       nfc: {
         id: 'NFC000125',
@@ -83,7 +80,6 @@ export const mockPatients: Patient[] = [
     shelterId: 'shelter-3',
     createdAt: Date.now() - 172800000, // 2 days ago
     updatedAt: Date.now() - 7200000, // 2 hours ago
-    synced: true
   },
   {
     id: 'p-4',
@@ -93,10 +89,7 @@ export const mockPatients: Patient[] = [
       id: 'NFC000126',
       rfid: {
         id: 'RFID000126',
-        coordinates: {
-          latitude: -23.5805,
-          longitude: -46.6633
-        }
+        coordinates: getShelterCoords('shelter-4')
       },
       nfc: {
         id: 'NFC000126',
@@ -111,6 +104,5 @@ export const mockPatients: Patient[] = [
     shelterId: 'shelter-4',
     createdAt: Date.now() - 259200000, // 3 days ago
     updatedAt: Date.now() - 900000, // 15 minutes ago
-    synced: false
   }
 ];
