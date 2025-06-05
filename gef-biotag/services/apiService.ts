@@ -2,7 +2,7 @@ import axios from 'axios';
 import { Patient } from '@/types';
 
 // Troque aqui para o endpoint real da sua API
-const API_BASE_URL = '';
+const API_BASE_URL = 'https://6840dd77d48516d1d3599c53.mockapi.io/patients';
 
 const api = axios.create({
   baseURL: API_BASE_URL,
