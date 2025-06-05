@@ -179,7 +179,17 @@ export default function PatientDetailsScreen() {
             <View style={styles.infoContent}>
               <Text style={styles.infoLabel}>Endereço</Text>
               <Text style={styles.infoValue}>
-                {patient.address || 'Não informado'}
+                {typeof patient.address === 'string'
+                  ? patient.address
+                  : [
+                      patient.address?.street,
+                      patient.address?.number,
+                      patient.address?.suite,
+                      patient.address?.city,
+                      patient.address?.state
+                    ]
+                      .filter(Boolean)
+                      .join(', ') || 'Não informado'}
               </Text>
             </View>
           </View>

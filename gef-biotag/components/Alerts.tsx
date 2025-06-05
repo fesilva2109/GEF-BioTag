@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     scrollContent: {
-        padding: 16,
+        padding: 8,
     },
     section: {
         backgroundColor: Colors.gray[800],
@@ -84,9 +84,10 @@ const styles = StyleSheet.create({
     },
     sectionTitle: {
         fontFamily: 'Inter-Bold',
-        fontSize: 16,
+        fontSize: 18,
         color: Colors.white,
         marginLeft: 8,
+        marginBottom: 8,
     },
     alertCard: {
         flexDirection: 'row',

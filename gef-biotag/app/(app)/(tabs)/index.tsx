@@ -43,7 +43,7 @@ export default function HomeScreen() {
           </TouchableOpacity>
         </View>
 
-        <View style={styles.statsContainer}>
+        <View >
           <Text style={styles.sectionTitle}>Resumo da Operação</Text>
 
           <View style={styles.statRow}>
@@ -66,6 +66,8 @@ export default function HomeScreen() {
             <Text style={styles.statNumber}>{criticalPatients.length}</Text>
             <Text style={styles.statLabel}>Pacientes em Estado Crítico</Text>
           </View>
+
+          <AlertsScreen/>
         </View>
 
         <View style={styles.infoSection}>
@@ -82,10 +84,6 @@ export default function HomeScreen() {
           <Text style={styles.infoText}>
             3. Mantenha a pulseira NFC próxima ao aparelho durante leituras
           </Text>
-        </View>
-        <View>
-          <AlertsScreen>
-          </AlertsScreen>
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -140,9 +138,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
     marginLeft: 12,
   },
-  statsContainer: {
-    marginBottom: 24,
-  },
   sectionTitle: {
     fontFamily: 'Inter-Bold',
     fontSize: 18,
@@ -157,7 +152,7 @@ const styles = StyleSheet.create({
   statCard: {
     borderRadius: 12,
     padding: 16,
-    marginBottom: 12,
+    marginBottom: 0,
   },
   primaryStatCard: {
     backgroundColor: Colors.gray[700],
