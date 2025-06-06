@@ -10,19 +10,9 @@ export interface Patient {
 
 export interface Bracelet {
   id: string;
-  rfid: RFID;
   nfc: NFC;
   iotHeartRate: IOTHeartRate;
 }
-
-export interface RFID {
-  id: string;
-  coordinates: {
-    latitude: number;
-    longitude: number;
-  };
-}
-
 export interface NFC {
   id: string;
   information: string[];
@@ -38,6 +28,7 @@ export interface Shelter {
   id: string;
   name: string;
   address: {
+    [x: string]: any;
     street?: string;
     number?: string;
     city?: string;
@@ -58,11 +49,6 @@ export interface User {
 }
 
 export type HeartRateStatus = 'normal' | 'warning' | 'critical';
-
-export interface ConnectionStatus {
-  online: boolean;
-  lastSynced: number | null;
-}
 
 export type HeartRateRange = {
   min: number;

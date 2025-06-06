@@ -3,16 +3,31 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Header } from '@/components/Header';
 import { useData } from '@/hooks/useData';
 import { Colors } from '@/constants/Colors';
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
+import { useLocalSearchParams } from 'expo-router';
+import MapView from 'react-native-maps';
 
-let MapView: React.JSX.IntrinsicAttributes, Marker: React.JSX.IntrinsicAttributes;
+let Marker: typeof import('react-native-maps').Marker;
 if (Platform.OS !== 'web') {
-  MapView = require('react-native-maps').default;
-  Marker = require('react-native-maps').Marker;
+  const Maps = require('react-native-maps');
+  Marker = Maps.Marker;
 }
 
 export default function MapScreen() {
   const { shelters, patients } = useData();
+  const { latitude, longitude } = useLocalSearchParams<{ latitude: number; longitude: number }>();
+  const mapRef = useRef<MapView>(null);
+
+  useEffect(() => {
+    if (latitude && longitude && mapRef.current) {
+      mapRef.current.animateToRegion({
+        latitude,
+        longitude,
+        latitudeDelta: 0.01,
+        longitudeDelta: 0.01,
+      });
+    }
+  }, [latitude, longitude]);
 
   if (Platform.OS === 'web') {
     return (
@@ -31,10 +46,11 @@ export default function MapScreen() {
     <SafeAreaView style={styles.container}>
       <Header title="Mapa de Abrigos e Pacientes" showBack={false} />
       <MapView
+        ref={mapRef}
         style={styles.map}
         initialRegion={{
-          latitude: -23.55,
-          longitude: -46.63,
+          latitude: latitude || -23.55, // Default latitude
+          longitude: longitude || -46.63, // Default longitude
           latitudeDelta: 0.1,
           longitudeDelta: 0.1,
         }}
@@ -51,31 +67,6 @@ export default function MapScreen() {
             description={`${shelter.address.street}, ${shelter.address.number}`}
           />
         ))}
-        {patients
-          .filter(
-            p =>
-              p.bracelet &&
-              p.bracelet.rfid &&
-              p.bracelet.rfid.coordinates &&
-              typeof p.bracelet.rfid.coordinates.latitude &&
-              typeof p.bracelet.rfid.coordinates.longitude 
-          )
-          .map(patient => (
-            <Marker
-              key={patient.id}
-              coordinate={{
-                latitude: patient.bracelet.rfid.coordinates.latitude,
-                longitude: patient.bracelet.rfid.coordinates.longitude,
-              }}
-              pinColor={Colors.secondary}
-              title={patient.name}
-              description={
-                patient.bracelet.iotHeartRate
-                  ? `BPM: ${patient.bracelet.iotHeartRate.bpm}`
-                  : undefined
-              }
-            />
-          ))}
       </MapView>
     </SafeAreaView>
   );

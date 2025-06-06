@@ -52,8 +52,12 @@ export default function SheltersScreen() {
                 <TouchableOpacity 
                   style={styles.shelterCard}
                   onPress={() => router.push({
-                    pathname: '/patients',
-                    params: { shelterId: item.id }
+                    pathname: '/map',
+                    params: { 
+                      shelterId: item.id,
+                      latitude: item.address.latitude,
+                      longitude: item.address.longitude
+                    }
                   })}
                 >
                   <View style={styles.shelterHeader}>
