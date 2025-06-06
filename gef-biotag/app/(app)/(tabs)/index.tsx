@@ -36,10 +36,10 @@ export default function HomeScreen() {
 
           <TouchableOpacity
             style={styles.secondaryButton}
-            onPress={() => router.push('/patients')}
+            onPress={() => router.push('/patient/scanner')}
           >
             <Users size={28} color="#FFFFFF" />
-            <Text style={styles.secondaryButtonText}>Pacientes nos Abrigos</Text>
+            <Text style={styles.secondaryButtonText}>Escanear Paciente</Text>
           </TouchableOpacity>
         </View>
 

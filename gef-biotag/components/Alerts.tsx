@@ -8,12 +8,10 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 export default function AlertsScreen() {
     const { patients, shelters } = useData();
 
-    // Pacientes em risco (bpm < 60 ou > 100)
     const criticalPatients = patients.filter(
-        p => p.bracelet.iotHeartRate.bpm < 60 || p.bracelet.iotHeartRate.bpm > 100
+        p => p.bracelet.iotHeartRate.bpm < 55 || p.bracelet.iotHeartRate.bpm > 100
     );
 
-    // Abrigos lotados (>90% da capacidade)
     const crowdedShelters = shelters.filter(shelter => {
         const count = patients.filter(p => p.shelterId === shelter.id).length;
         return count / shelter.capacity > 0.9;
