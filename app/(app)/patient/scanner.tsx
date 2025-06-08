@@ -12,24 +12,19 @@ export default function ScannerScreen() {
 
   const simulateScan = async () => {
     setIsScanning(true);
-
     try {
       const patients = await apiService.getPatients();
-
       const randomPatient = patients[Math.floor(Math.random() * patients.length)];
       if (!randomPatient) {
         Alert.alert('Erro', 'Nenhum paciente encontrado na API.');
         return;
       }
-
-      const simulatedNfcId = randomPatient.bracelet.nfc.id;
       router.push({
         pathname: '/patient/details',
         params: { id: randomPatient.id },
       });
-    } catch (error) {
-      console.error('Erro ao simular escaneamento:', error);
-      Alert.alert('Erro', 'Não foi possível simular o escaneamento.');
+    } catch {
+      Alert.alert('Erro', 'Não foi possível escanear o paciente.');
     } finally {
       setIsScanning(false);
     }
@@ -44,15 +39,13 @@ export default function ScannerScreen() {
         <Text style={styles.title}>Escanear Paciente</Text>
         <Text style={styles.subtitle}>Aproxime a pulseira NFC do dispositivo</Text>
       </View>
-
       <View style={styles.imageContainer}>
         <Image
-          source={require('@/assets/images/nfc.png')} 
+          source={require('@/assets/images/nfc.png')}
           style={styles.image}
           resizeMode="contain"
         />
       </View>
-
       <View style={styles.content}>
         {isScanning ? (
           <ActivityIndicator size="large" color={Colors.primary} />
