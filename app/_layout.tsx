@@ -13,7 +13,7 @@ import {
 } from '@expo-google-fonts/inter';
 import React, { useContext } from 'react';
 
-// Prevent the splash screen from auto-hiding
+
 SplashScreen.preventAutoHideAsync();
 
 function AuthGate({ children }: { children: React.ReactNode }) {
@@ -32,7 +32,6 @@ function AuthGate({ children }: { children: React.ReactNode }) {
     }
   }, [user, isLoading, segments]);
 
-  // Enquanto carrega o usuário, não renderiza nada
   if (isLoading) return null;
 
   return <>{children}</>;

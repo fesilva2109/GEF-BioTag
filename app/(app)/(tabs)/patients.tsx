@@ -21,7 +21,6 @@ export default function PatientsScreen() {
   useEffect(() => {
     let result = [...patients];
     
-    // Apply search filter
     if (searchQuery) {
       result = result.filter(patient => 
         patient.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -29,7 +28,6 @@ export default function PatientsScreen() {
       );
     }
     
-    // Apply shelter filter
     if (filterShelterId) {
       result = result.filter(patient => patient.shelterId === filterShelterId);
     }

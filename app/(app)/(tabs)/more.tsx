@@ -9,7 +9,6 @@ export default function MoreScreen() {
   const router = useRouter();
   const { logout } = useUser();
 
-  // Estado para controlar qual modal está aberto
   const [modal, setModal] = React.useState<null | 'team' | 'terms' | 'about' | 'help'>(null);
 
   const handleLogout = () => {
@@ -32,7 +31,6 @@ export default function MoreScreen() {
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-      {/* Modais */}
       <InfoModal
         visible={modal === 'team'}
         onClose={() => setModal(null)}

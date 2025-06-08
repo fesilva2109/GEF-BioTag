@@ -1,11 +1,11 @@
 export const Colors = {
-  primary: '#D32F2F',      // Red for emergency emphasis
-  secondary: '#0D47A1',    // Dark blue for secondary actions
-  success: '#2E7D32',      // Green for success states
-  warning: '#FFC107',      // Amber for warnings
-  danger: '#F44336',       // Bright red for danger/critical
+  primary: '#D32F2F',     
+  secondary: '#0D47A1',    
+  success: '#2E7D32',      
+  warning: '#FFC107',      
+  danger: '#F44336',       
   
-  darkGray: '#121212',     // App background
+  darkGray: '#121212',    
   white: '#FFFFFF',
   
   gray: {

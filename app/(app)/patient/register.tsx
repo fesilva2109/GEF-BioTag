@@ -24,7 +24,6 @@ export default function RegisterPatientScreen() {
   const [heartRate, setHeartRate] = useState('75');
   const [notes, setNotes] = useState('');
 
-  // Simulação de leitura NFC: preenche apenas o ID da pulseira
   const simulateNfcScan = () => {
     setIsScanning(true);
 
@@ -58,10 +57,8 @@ export default function RegisterPatientScreen() {
     setIsSaving(true);
 
     try {
-      // Busca o abrigo selecionado
       const shelter = shelters.find(s => s.id === shelterId);
 
-      // Se o abrigo tiver coordenadas, use-as. Se não, gere próximas a SP.
       const latitude = shelter?.address?.latitude ?? (-23.55 - (Math.random() * 0.1));
       const longitude = shelter?.address?.longitude ?? (-46.63 - (Math.random() * 0.1));
 

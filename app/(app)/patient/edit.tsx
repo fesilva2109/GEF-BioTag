@@ -17,7 +17,6 @@ export default function EditPatientScreen() {
   const [isSaving, setIsSaving] = useState(false);
   const [patient, setPatient] = useState<any>(null);
 
-  // Campos editáveis
   const [name, setName] = useState('');
   const [address, setAddress] = useState('');
   const [shelterId, setShelterId] = useState('');
@@ -33,7 +32,6 @@ export default function EditPatientScreen() {
         setAddress(foundPatient.address);
         setShelterId(foundPatient.shelterId);
         setHeartRate(String(foundPatient.bracelet.iotHeartRate.bpm));
-        // Pega observações do NFC info (exceto nome/abrigo)
         const obs = foundPatient.bracelet.nfc.information
           .filter((info: string) => !info.startsWith('Nome:') && !info.startsWith('Abrigo:'))
           .join('\n');

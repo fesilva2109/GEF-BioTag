@@ -36,12 +36,10 @@ export default function PatientDetailsScreen() {
     setLoading(true);
 
     try {
-      // Generate a random heart rate between 50 and 130
       const newBpm = Math.floor(Math.random() * 80) + 50;
 
       await updatePatientHeartRate(patient.id, newBpm);
 
-      // Update local state
       setPatient(prev => {
         if (!prev) return null;
         return {

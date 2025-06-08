@@ -52,7 +52,6 @@ export default function AlertsScreen() {
                         ))
                     )}
                 </View>
-                {/* Adicione outras notificações do sistema aqui, se desejar */}
             </ScrollView>
         </SafeAreaView>
     );

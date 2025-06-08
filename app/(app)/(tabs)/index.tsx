@@ -15,7 +15,6 @@ export default function HomeScreen() {
   const { isOffline } = useData();
 
 
-  // Filter patients with critical heart rate
   const criticalPatients = patients.filter(patient => {
     return patient.bracelet.iotHeartRate.bpm > 100 || patient.bracelet.iotHeartRate.bpm < 60;
   });

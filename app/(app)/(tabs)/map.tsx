@@ -49,8 +49,8 @@ export default function MapScreen() {
         ref={mapRef}
         style={styles.map}
         initialRegion={{
-          latitude: latitude || -23.55, // Default latitude
-          longitude: longitude || -46.63, // Default longitude
+          latitude: latitude || -23.55, 
+          longitude: longitude || -46.63, 
           latitudeDelta: 0.1,
           longitudeDelta: 0.1,
         }}

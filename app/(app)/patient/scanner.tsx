@@ -14,19 +14,15 @@ export default function ScannerScreen() {
     setIsScanning(true);
 
     try {
-      // Busca todos os pacientes na API
       const patients = await apiService.getPatients();
 
-      // Seleciona aleatoriamente um paciente existente
       const randomPatient = patients[Math.floor(Math.random() * patients.length)];
       if (!randomPatient) {
         Alert.alert('Erro', 'Nenhum paciente encontrado na API.');
         return;
       }
 
-      // Simula o ID NFC escaneado
       const simulatedNfcId = randomPatient.bracelet.nfc.id;
-      // Redireciona para a tela de detalhes do paciente
       router.push({
         pathname: '/patient/details',
         params: { id: randomPatient.id },
@@ -51,7 +47,7 @@ export default function ScannerScreen() {
 
       <View style={styles.imageContainer}>
         <Image
-          source={require('@/assets/images/nfc.png')} // Substitua pelo caminho correto da imagem
+          source={require('@/assets/images/nfc.png')} 
           style={styles.image}
           resizeMode="contain"
         />
