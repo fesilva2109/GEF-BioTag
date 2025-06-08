@@ -24,30 +24,14 @@ export default function RegisterPatientScreen() {
   const [heartRate, setHeartRate] = useState('75');
   const [notes, setNotes] = useState('');
 
-  // Simulação de leitura NFC: preenche os campos com dados fictícios
+  // Simulação de leitura NFC: preenche apenas o ID da pulseira
   const simulateNfcScan = () => {
     setIsScanning(true);
 
     setTimeout(() => {
-      // Simula um ID NFC
       const randomId = 'NFC' + Math.floor(Math.random() * 100000).toString().padStart(6, '0');
       setNfcId(randomId);
-
-      // Simula informações vindas do NFC (JSON)
-      const fakePatient = {
-        name: 'Paciente Exemplo',
-        address: 'Rua das Flores, 123',
-        shelterId: shelters.length > 0 ? shelters[0].id : '',
-        heartRate: '82',
-        notes: 'Paciente simulado via NFC.'
-      };
-      setName(fakePatient.name);
-      setAddress(fakePatient.address);
-      setShelterId(fakePatient.shelterId);
-      setHeartRate(fakePatient.heartRate);
-      setNotes(fakePatient.notes);
-
-      setIsScanning(false);
+      setIsScanning(false); 
     }, 2000);
   };
 
@@ -87,10 +71,6 @@ export default function RegisterPatientScreen() {
         shelterId,
         bracelet: {
           id: nfcId,
-          rfid: {
-            id: 'RFID' + nfcId.substring(3),
-            coordinates: { latitude, longitude }
-          },
           nfc: {
             id: nfcId,
             information: [
