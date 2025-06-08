@@ -3,7 +3,7 @@ import { Alert, ActivityIndicator, StyleSheet, Text, TouchableOpacity, View, Ima
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { Colors } from '@/constants/Colors';
-import { Radio } from 'lucide-react-native';
+import { ArrowLeft, Radio } from 'lucide-react-native';
 import { apiService } from '@/services/apiService';
 
 export default function ScannerScreen() {
@@ -41,6 +41,9 @@ export default function ScannerScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
+      <TouchableOpacity onPress={() => router.back()} style={styles.absoluteBackButton}>
+        <ArrowLeft size={28} color={Colors.white} />
+      </TouchableOpacity>
       <View style={styles.header}>
         <Text style={styles.title}>Escanear Paciente</Text>
         <Text style={styles.subtitle}>Aproxime a pulseira NFC do dispositivo</Text>
@@ -75,6 +78,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     paddingHorizontal: 16,
+  },
+  absoluteBackButton: {
+    position: 'absolute',
+    top: 64,
+    left: 16,
+    zIndex: 10,
+    padding: 8,
   },
   header: {
     marginBottom: 24,
